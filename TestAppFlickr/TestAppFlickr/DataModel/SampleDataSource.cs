@@ -15,6 +15,7 @@ using System.Collections.Specialized;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.IO;
+using FlickrNet;
 
 namespace TestAppFlickr.Data
 {
