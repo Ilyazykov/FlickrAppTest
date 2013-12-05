@@ -13,6 +13,8 @@ using Windows.UI.Xaml.Media.Imaging;
 using Windows.Web.Syndication;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
+using System.IO;
 
 namespace TestAppFlickr.Data
 {
@@ -195,7 +197,6 @@ namespace TestAppFlickr.Data
 
         public static RSSDataGroup GetGroup(string uniqueId)
         {
-            // Simple linear search is acceptable for small data sets
             var matches = AllGroups.Where((group) => group.UniqueId.Equals(uniqueId));
             if (matches.Count() == 1) return matches.First();
             return null;
@@ -203,7 +204,6 @@ namespace TestAppFlickr.Data
 
         public static RSSDataItem GetItem(string uniqueId)
         {
-            // Simple linear search is acceptable for small data sets
             var matches = AllGroups.SelectMany(group => group.Items).Where((item) => item.UniqueId.Equals(uniqueId));
             if (matches.Count() == 1) return matches.First();
             return null;
@@ -224,7 +224,7 @@ namespace TestAppFlickr.Data
 
             foreach (var i in feed.Items)
             {
-                string imagePath = null;
+                string imagePath = GetImageFromPostContents(i);
 
                 if (imagePath != null && feedGroup.Image == null) feedGroup.SetImage(imagePath);
                 if (imagePath == null) imagePath = "ms-appx:///Assets/DarkGray.png";
@@ -235,6 +235,31 @@ namespace TestAppFlickr.Data
 
             AllGroups.Add(feedGroup);
             return true;
+        }
+
+        private static string GetImageFromPostContents(SyndicationItem item)
+        {
+            string text2search = "";
+
+            if (item.Content != null) text2search += item.Content.Text;
+            if (item.Summary != null) text2search += item.Summary.Text;
+
+            return Regex.Matches(text2search,
+                @"(?<=<img\s+[^>]*?src=(?<q>['""]))(?<url>.+?)(?=\k<q>)",
+                RegexOptions.IgnoreCase)
+            .Cast<Match>()
+            .Where(m =>
+            {
+                Uri url;
+                if (Uri.TryCreate(m.Groups[0].Value, UriKind.Absolute, out url))
+                {
+                    string ext = Path.GetExtension(url.AbsolutePath).ToLower();
+                    if (ext == ".png" || ext == ".jpg" || ext == ".bmp") return true;
+                }
+                return false;
+            })
+            .Select(m => m.Groups[0].Value)
+            .FirstOrDefault();
         }
 
         public RSSDataSource()
