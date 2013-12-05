@@ -1,8 +1,5 @@
-#Примеры приложений использующих нужный мне API
+#Flickr App
 
-http://flickrnet.codeplex.com/wikipage?title=Applications&referringTitle=Home
+[Примеры приложений использующих нужный мне API](http://flickrnet.codeplex.com/wikipage?title=Applications&referringTitle=Home)
 
-
-##flickr downloader
-
-http://flickrdownloadr.codeplex.com/
+[flickr downloader](http://flickrdownloadr.codeplex.com/)
