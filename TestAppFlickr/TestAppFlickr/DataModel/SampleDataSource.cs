@@ -10,16 +10,18 @@ using Windows.Foundation.Collections;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using Windows.Web.Syndication;
 using System.Collections.Specialized;
+using System.Threading.Tasks;
 
 namespace TestAppFlickr.Data
 {
     [Windows.Foundation.Metadata.WebHostHidden]
-    public abstract class SampleDataCommon : TestAppFlickr.Common.BindableBase
+    public abstract class RSSDataCommon : TestAppFlickr.Common.BindableBase
     {
         private static Uri _baseUri = new Uri("ms-appx:///");
 
-        public SampleDataCommon(String uniqueId, String title, String imagePath)
+        public RSSDataCommon(String uniqueId, String title, String imagePath)
         {
             this._uniqueId = uniqueId;
             this._title = title;
@@ -62,7 +64,7 @@ namespace TestAppFlickr.Data
             {
                 if (this._image == null && this._imagePath != null)
                 {
-                    this._image = new BitmapImage(new Uri(SampleDataCommon._baseUri, this._imagePath));
+                    this._image = new BitmapImage(new Uri(RSSDataCommon._baseUri, this._imagePath));
                 }
                 return this._image;
             }
@@ -87,25 +89,25 @@ namespace TestAppFlickr.Data
         }
     }
 
-    public class SampleDataItem : SampleDataCommon
+    public class RSSDataItem : RSSDataCommon
     {
-        public SampleDataItem(String uniqueId, String title, String imagePath, SampleDataGroup group)
+        public RSSDataItem(String uniqueId, String title, String imagePath, RSSDataGroup group)
             : base(uniqueId, title, imagePath)
         {
             this._group = group;
         }
 
-        private SampleDataGroup _group;
-        public SampleDataGroup Group
+        private RSSDataGroup _group;
+        public RSSDataGroup Group
         {
             get { return this._group; }
             set { this.SetProperty(ref this._group, value); }
         }
     }
 
-    public class SampleDataGroup : SampleDataCommon
+    public class RSSDataGroup : RSSDataCommon
     {
-        public SampleDataGroup(String uniqueId, String title, String imagePath)
+        public RSSDataGroup(String uniqueId, String title, String imagePath)
             : base(uniqueId, title, imagePath)
         {
             Items.CollectionChanged += ItemsCollectionChanged;
@@ -167,78 +169,76 @@ namespace TestAppFlickr.Data
             }
         }
 
-        private ObservableCollection<SampleDataItem> _items = new ObservableCollection<SampleDataItem>();
-        public ObservableCollection<SampleDataItem> Items
+        private ObservableCollection<RSSDataItem> _items = new ObservableCollection<RSSDataItem>();
+        public ObservableCollection<RSSDataItem> Items
         {
             get { return this._items; }
         }
 
-        private ObservableCollection<SampleDataItem> _topItem = new ObservableCollection<SampleDataItem>();
-        public ObservableCollection<SampleDataItem> TopItems
+        private ObservableCollection<RSSDataItem> _topItem = new ObservableCollection<RSSDataItem>();
+        public ObservableCollection<RSSDataItem> TopItems
         {
             get {return this._topItem; }
         }
     }
 
-    public sealed class SampleDataSource
+    public sealed class RSSDataSource
     {
-        private static SampleDataSource _sampleDataSource = new SampleDataSource();
-        private ObservableCollection<SampleDataGroup> _allGroups = new ObservableCollection<SampleDataGroup>();
+        public static readonly ObservableCollection<RSSDataGroup> AllGroups = new ObservableCollection<RSSDataGroup>();
 
-        public ObservableCollection<SampleDataGroup> AllGroups
-        {
-            get { return this._allGroups; }
-        }
-
-        public static IEnumerable<SampleDataGroup> GetGroups(string uniqueId)
+        public static IEnumerable<RSSDataGroup> GetGroups(string uniqueId)
         {
             if (!uniqueId.Equals("AllGroups")) throw new ArgumentException("Only 'AllGroups' is supported as a collection of groups");
             
-            return _sampleDataSource.AllGroups;
+            return AllGroups;
         }
 
-        public static SampleDataGroup GetGroup(string uniqueId)
+        public static RSSDataGroup GetGroup(string uniqueId)
         {
             // Simple linear search is acceptable for small data sets
-            var matches = _sampleDataSource.AllGroups.Where((group) => group.UniqueId.Equals(uniqueId));
+            var matches = AllGroups.Where((group) => group.UniqueId.Equals(uniqueId));
             if (matches.Count() == 1) return matches.First();
             return null;
         }
 
-        public static SampleDataItem GetItem(string uniqueId)
+        public static RSSDataItem GetItem(string uniqueId)
         {
             // Simple linear search is acceptable for small data sets
-            var matches = _sampleDataSource.AllGroups.SelectMany(group => group.Items).Where((item) => item.UniqueId.Equals(uniqueId));
+            var matches = AllGroups.SelectMany(group => group.Items).Where((item) => item.UniqueId.Equals(uniqueId));
             if (matches.Count() == 1) return matches.First();
             return null;
         }
 
-        public SampleDataSource()
+        public static async Task<bool> AddGroupForFeedAsync(string feedUrl)
         {
-            var group1 = new SampleDataGroup("Group-1",
-                    "Group Title: 1",
-                    "Assets/DarkGray.png");
-            group1.Items.Add(new SampleDataItem("Group-1-Item-1",
-                    "Item Title: 1",
-                    "Assets/LightGray.png",
-                    group1));
-            group1.Items.Add(new SampleDataItem("Group-1-Item-2",
-                    "Item Title: 2",
-                    "Assets/DarkGray.png",
-                    group1));
-            group1.Items.Add(new SampleDataItem("Group-1-Item-3",
-                    "Item Title: 3",
-                    "Assets/MediumGray.png",
-                    group1));
-            group1.Items.Add(new SampleDataItem("Group-1-Item-4",
-                    "Item Title: 4",
-                    "Assets/DarkGray.png",
-                    group1));
-            group1.Items.Add(new SampleDataItem("Group-1-Item-5",
-                    "Item Title: 5",
-                    "Assets/MediumGray.png",
-                    group1));
-            this.AllGroups.Add(group1);
+            string clearedContent = String.Empty;
+
+            if (RSSDataSource.GetGroup(feedUrl) != null) return false;
+
+            var feed = await new SyndicationClient().RetrieveFeedAsync(new Uri(feedUrl));
+
+            var feedGroup = new RSSDataGroup(
+                uniqueId: feedUrl,
+                title: feed.Title != null ? feed.Title.Text : null,
+                imagePath: feed.ImageUri != null ? feed.ImageUri.ToString() : null);
+
+            foreach (var i in feed.Items)
+            {
+                string imagePath = null;
+
+                if (imagePath != null && feedGroup.Image == null) feedGroup.SetImage(imagePath);
+                if (imagePath == null) imagePath = "ms-appx:///Assets/DarkGray.png";
+
+                feedGroup.Items.Add(new RSSDataItem(
+                    uniqueId: i.Id, title: i.Title.Text, imagePath: imagePath, @group: feedGroup));
+            }
+
+            AllGroups.Add(feedGroup);
+            return true;
+        }
+
+        public RSSDataSource()
+        {
         }
     }
 }
