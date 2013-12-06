@@ -234,13 +234,13 @@ namespace TestAppFlickr.Data
 
             foreach (var i in photo)
             {
-                string imagePath = i.WebUrl;
+                string imagePath = i.SmallUrl;
                 
                 if (imagePath != null && feedGroup.Image == null) feedGroup.SetImage(imagePath);
                 if (imagePath == null) imagePath = "ms-appx:///Assets/DarkGray.png";
 
                 feedGroup.Items.Add(new FlickrDataItem(
-                    uniqueId: i.PhotoId, title: i.Title, imagePath: imagePath, @group: feedGroup));
+                    uniqueId: i.PhotoId, title: imagePath, imagePath: imagePath, @group: feedGroup));
             }
 
             AllGroups.Add(feedGroup);
