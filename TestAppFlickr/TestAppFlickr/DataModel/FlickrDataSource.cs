@@ -219,7 +219,9 @@ namespace TestAppFlickr.Data
         {
             string clearedContent = String.Empty;
 
-            var feedGroup = new FlickrDataGroup(uniqueId: null, title: null, imagePath: null);
+			if (FlickrDataSource.GetGroup("test") != null) return;
+			
+            var feedGroup = new FlickrDataGroup(uniqueId: "test", title: null, imagePath: null);
 
             Flickr flickr = new Flickr(flickrKey, sharedSecret);
             PhotoCollection photos = flickr.PhotosGetRecent();
