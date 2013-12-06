@@ -190,13 +190,7 @@ namespace TestAppFlickr.Data
         static string flickrKey = "d2845fd835868cc17fa4c1e98c03a174";
         static string sharedSecret = "ea9da11a741633e9";
 
-        private static PhotoCollection GetPhotos()
-        {
-            Flickr flickr = new Flickr(flickrKey, sharedSecret);
-            PhotoCollection photos = flickr.PhotosGetRecent();
 
-            return photos;
-        }
 
         public static readonly ObservableCollection<FlickrDataGroup> AllGroups = new ObservableCollection<FlickrDataGroup>();
 
@@ -225,14 +219,12 @@ namespace TestAppFlickr.Data
         {
             string clearedContent = String.Empty;
 
-            var feedGroup = new FlickrDataGroup(
-                uniqueId: "unique",
-                title: "title",
-                imagePath: null);
+            var feedGroup = new FlickrDataGroup(uniqueId: null, title: null, imagePath: null);
 
-            PhotoCollection photo = GetPhotos();
+            Flickr flickr = new Flickr(flickrKey, sharedSecret);
+            PhotoCollection photos = flickr.PhotosGetRecent();
 
-            foreach (var i in photo)
+            foreach (var i in photos)
             {
                 string imagePath = i.SmallUrl;
                 
@@ -240,35 +232,10 @@ namespace TestAppFlickr.Data
                 if (imagePath == null) imagePath = "ms-appx:///Assets/DarkGray.png";
 
                 feedGroup.Items.Add(new FlickrDataItem(
-                    uniqueId: i.PhotoId, title: imagePath, imagePath: imagePath, @group: feedGroup));
+                    uniqueId: i.PhotoId, title: i.Title, imagePath: imagePath, @group: feedGroup));
             }
 
             AllGroups.Add(feedGroup);
-        }
-
-        private static string GetImageFromPostContents(SyndicationItem item)
-        {
-            string text2search = "";
-
-            if (item.Content != null) text2search += item.Content.Text;
-            if (item.Summary != null) text2search += item.Summary.Text;
-
-            return Regex.Matches(text2search,
-                @"(?<=<img\s+[^>]*?src=(?<q>['""]))(?<url>.+?)(?=\k<q>)",
-                RegexOptions.IgnoreCase)
-            .Cast<Match>()
-            .Where(m =>
-            {
-                Uri url;
-                if (Uri.TryCreate(m.Groups[0].Value, UriKind.Absolute, out url))
-                {
-                    string ext = Path.GetExtension(url.AbsolutePath).ToLower();
-                    if (ext == ".png" || ext == ".jpg" || ext == ".bmp") return true;
-                }
-                return false;
-            })
-            .Select(m => m.Groups[0].Value)
-            .FirstOrDefault();
         }
 
         public FlickrDataSource()
