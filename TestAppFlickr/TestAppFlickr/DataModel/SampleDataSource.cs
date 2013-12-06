@@ -20,11 +20,11 @@ using FlickrNet;
 namespace TestAppFlickr.Data
 {
     [Windows.Foundation.Metadata.WebHostHidden]
-    public abstract class RSSDataCommon : TestAppFlickr.Common.BindableBase
+    public abstract class FlickrDataCommon : TestAppFlickr.Common.BindableBase
     {
         private static Uri _baseUri = new Uri("ms-appx:///");
 
-        public RSSDataCommon(String uniqueId, String title, String imagePath)
+        public FlickrDataCommon(String uniqueId, String title, String imagePath)
         {
             this._uniqueId = uniqueId;
             this._title = title;
@@ -67,7 +67,7 @@ namespace TestAppFlickr.Data
             {
                 if (this._image == null && this._imagePath != null)
                 {
-                    this._image = new BitmapImage(new Uri(RSSDataCommon._baseUri, this._imagePath));
+                    this._image = new BitmapImage(new Uri(FlickrDataCommon._baseUri, this._imagePath));
                 }
                 return this._image;
             }
@@ -92,25 +92,25 @@ namespace TestAppFlickr.Data
         }
     }
 
-    public class RSSDataItem : RSSDataCommon
+    public class FlickrDataItem : FlickrDataCommon
     {
-        public RSSDataItem(String uniqueId, String title, String imagePath, RSSDataGroup group)
+        public FlickrDataItem(String uniqueId, String title, String imagePath, FlickrDataGroup group)
             : base(uniqueId, title, imagePath)
         {
             this._group = group;
         }
 
-        private RSSDataGroup _group;
-        public RSSDataGroup Group
+        private FlickrDataGroup _group;
+        public FlickrDataGroup Group
         {
             get { return this._group; }
             set { this.SetProperty(ref this._group, value); }
         }
     }
 
-    public class RSSDataGroup : RSSDataCommon
+    public class FlickrDataGroup : FlickrDataCommon
     {
-        public RSSDataGroup(String uniqueId, String title, String imagePath)
+        public FlickrDataGroup(String uniqueId, String title, String imagePath)
             : base(uniqueId, title, imagePath)
         {
             Items.CollectionChanged += ItemsCollectionChanged;
@@ -172,38 +172,55 @@ namespace TestAppFlickr.Data
             }
         }
 
-        private ObservableCollection<RSSDataItem> _items = new ObservableCollection<RSSDataItem>();
-        public ObservableCollection<RSSDataItem> Items
+        private ObservableCollection<FlickrDataItem> _items = new ObservableCollection<FlickrDataItem>();
+        public ObservableCollection<FlickrDataItem> Items
         {
             get { return this._items; }
         }
 
-        private ObservableCollection<RSSDataItem> _topItem = new ObservableCollection<RSSDataItem>();
-        public ObservableCollection<RSSDataItem> TopItems
+        private ObservableCollection<FlickrDataItem> _topItem = new ObservableCollection<FlickrDataItem>();
+        public ObservableCollection<FlickrDataItem> TopItems
         {
             get {return this._topItem; }
         }
     }
 
-    public sealed class RSSDataSource
+    public sealed class FlickrDataSource
     {
-        public static readonly ObservableCollection<RSSDataGroup> AllGroups = new ObservableCollection<RSSDataGroup>();
+        static string flickrKey = "d2845fd835868cc17fa4c1e98c03a174";
+        static string sharedSecret = "ea9da11a741633e9";
 
-        public static IEnumerable<RSSDataGroup> GetGroups(string uniqueId)
+        private static void GetPhotos(string tag)
+        {
+            PhotoSearchOptions options = new PhotoSearchOptions();
+            options.PerPage = 12;
+            options.Page = 1;
+            options.SortOrder = PhotoSearchSortOrder.DatePostedDescending;
+            options.MediaType = MediaType.Photos;
+            options.Extras = PhotoSearchExtras.All;
+            options.Tags = tag;
+
+            Flickr flickr = new Flickr(flickrKey, sharedSecret);
+            PhotoCollection photos = flickr.PhotosSearch(options);
+        }
+
+        public static readonly ObservableCollection<FlickrDataGroup> AllGroups = new ObservableCollection<FlickrDataGroup>();
+
+        public static IEnumerable<FlickrDataGroup> GetGroups(string uniqueId)
         {
             if (!uniqueId.Equals("AllGroups")) throw new ArgumentException("Only 'AllGroups' is supported as a collection of groups");
             
             return AllGroups;
         }
 
-        public static RSSDataGroup GetGroup(string uniqueId)
+        public static FlickrDataGroup GetGroup(string uniqueId)
         {
             var matches = AllGroups.Where((group) => group.UniqueId.Equals(uniqueId));
             if (matches.Count() == 1) return matches.First();
             return null;
         }
 
-        public static RSSDataItem GetItem(string uniqueId)
+        public static FlickrDataItem GetItem(string uniqueId)
         {
             var matches = AllGroups.SelectMany(group => group.Items).Where((item) => item.UniqueId.Equals(uniqueId));
             if (matches.Count() == 1) return matches.First();
@@ -214,11 +231,11 @@ namespace TestAppFlickr.Data
         {
             string clearedContent = String.Empty;
 
-            if (RSSDataSource.GetGroup(feedUrl) != null) return false;
+            if (FlickrDataSource.GetGroup(feedUrl) != null) return false;
 
             var feed = await new SyndicationClient().RetrieveFeedAsync(new Uri(feedUrl));
 
-            var feedGroup = new RSSDataGroup(
+            var feedGroup = new FlickrDataGroup(
                 uniqueId: feedUrl,
                 title: feed.Title != null ? feed.Title.Text : null,
                 imagePath: feed.ImageUri != null ? feed.ImageUri.ToString() : null);
@@ -230,7 +247,7 @@ namespace TestAppFlickr.Data
                 if (imagePath != null && feedGroup.Image == null) feedGroup.SetImage(imagePath);
                 if (imagePath == null) imagePath = "ms-appx:///Assets/DarkGray.png";
 
-                feedGroup.Items.Add(new RSSDataItem(
+                feedGroup.Items.Add(new FlickrDataItem(
                     uniqueId: i.Id, title: i.Title.Text, imagePath: imagePath, @group: feedGroup));
             }
 
@@ -263,7 +280,7 @@ namespace TestAppFlickr.Data
             .FirstOrDefault();
         }
 
-        public RSSDataSource()
+        public FlickrDataSource()
         {
         }
     }

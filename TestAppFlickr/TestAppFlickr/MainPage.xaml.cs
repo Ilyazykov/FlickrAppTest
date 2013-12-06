@@ -30,14 +30,14 @@ namespace TestAppFlickr
 
         protected override void LoadState(Object navigationParameter, Dictionary<String, Object> pageState)
         {
-            RSSDataSource.AddGroupForFeedAsync("http://blogs.msdn.com/b/status/rss.aspx");
-            RSSDataSource.AddGroupForFeedAsync("http://www.spugachev.com/feed");
-            this.DefaultViewModel["Groups"] = RSSDataSource.AllGroups;
+            FlickrDataSource.AddGroupForFeedAsync("http://blogs.msdn.com/b/status/rss.aspx");
+            FlickrDataSource.AddGroupForFeedAsync("http://www.spugachev.com/feed");
+            this.DefaultViewModel["Groups"] = FlickrDataSource.AllGroups;
         }
 
         void ItemView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            var itemId = ((RSSDataItem)e.ClickedItem).UniqueId;
+            var itemId = ((FlickrDataItem)e.ClickedItem).UniqueId;
             this.Frame.Navigate(typeof(ItemDetailPage), itemId);
         }
     }
