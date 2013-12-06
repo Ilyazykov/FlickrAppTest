@@ -30,8 +30,7 @@ namespace TestAppFlickr
 
         protected override void LoadState(Object navigationParameter, Dictionary<String, Object> pageState)
         {
-            FlickrDataSource.AddGroupForFeedAsync("http://blogs.msdn.com/b/status/rss.aspx");
-            FlickrDataSource.AddGroupForFeedAsync("http://www.spugachev.com/feed");
+            FlickrDataSource.AddGroupForFeed();
             this.DefaultViewModel["Groups"] = FlickrDataSource.AllGroups;
         }
 

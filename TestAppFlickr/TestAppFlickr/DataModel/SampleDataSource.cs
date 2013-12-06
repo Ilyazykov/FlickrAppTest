@@ -190,18 +190,12 @@ namespace TestAppFlickr.Data
         static string flickrKey = "d2845fd835868cc17fa4c1e98c03a174";
         static string sharedSecret = "ea9da11a741633e9";
 
-        private static void GetPhotos(string tag)
+        private static PhotoCollection GetPhotos()
         {
-            PhotoSearchOptions options = new PhotoSearchOptions();
-            options.PerPage = 12;
-            options.Page = 1;
-            options.SortOrder = PhotoSearchSortOrder.DatePostedDescending;
-            options.MediaType = MediaType.Photos;
-            options.Extras = PhotoSearchExtras.All;
-            options.Tags = tag;
-
             Flickr flickr = new Flickr(flickrKey, sharedSecret);
-            PhotoCollection photos = flickr.PhotosSearch(options);
+            PhotoCollection photos = flickr.PhotosGetRecent();
+
+            return photos;
         }
 
         public static readonly ObservableCollection<FlickrDataGroup> AllGroups = new ObservableCollection<FlickrDataGroup>();
@@ -227,32 +221,29 @@ namespace TestAppFlickr.Data
             return null;
         }
 
-        public static async Task<bool> AddGroupForFeedAsync(string feedUrl)
+        public static void AddGroupForFeed()
         {
             string clearedContent = String.Empty;
 
-            if (FlickrDataSource.GetGroup(feedUrl) != null) return false;
-
-            var feed = await new SyndicationClient().RetrieveFeedAsync(new Uri(feedUrl));
-
             var feedGroup = new FlickrDataGroup(
-                uniqueId: feedUrl,
-                title: feed.Title != null ? feed.Title.Text : null,
-                imagePath: feed.ImageUri != null ? feed.ImageUri.ToString() : null);
+                uniqueId: "unique",
+                title: "title",
+                imagePath: null);
 
-            foreach (var i in feed.Items)
+            PhotoCollection photo = GetPhotos();
+
+            foreach (var i in photo)
             {
-                string imagePath = GetImageFromPostContents(i);
-
+                string imagePath = i.WebUrl;
+                
                 if (imagePath != null && feedGroup.Image == null) feedGroup.SetImage(imagePath);
                 if (imagePath == null) imagePath = "ms-appx:///Assets/DarkGray.png";
 
                 feedGroup.Items.Add(new FlickrDataItem(
-                    uniqueId: i.Id, title: i.Title.Text, imagePath: imagePath, @group: feedGroup));
+                    uniqueId: i.PhotoId, title: i.Title, imagePath: imagePath, @group: feedGroup));
             }
 
             AllGroups.Add(feedGroup);
-            return true;
         }
 
         private static string GetImageFromPostContents(SyndicationItem item)
