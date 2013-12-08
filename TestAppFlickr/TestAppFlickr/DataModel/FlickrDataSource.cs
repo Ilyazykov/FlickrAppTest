@@ -29,7 +29,7 @@ namespace TestAppFlickr.Data
             this._uniqueId = uniqueId;
             this._title = title;
             this._imageSmallPath = imageSmallPath;
-
+            this._imageLargePath = imageLargePath;
         }
 
         private string _uniqueId = string.Empty;
@@ -44,6 +44,26 @@ namespace TestAppFlickr.Data
         {
             get { return this._title; }
             set { this.SetProperty(ref this._title, value); }
+        }
+
+        private ImageSource _large_image = null;
+        private String _imageLargePath = null;
+        public ImageSource LargeImage
+        {
+            get
+            {
+                if (this._large_image == null && this._imageLargePath != null)
+                {
+                    this._large_image = new BitmapImage(new Uri(FlickrDataCommon._baseUri, this._imageLargePath));
+                }
+                return this._large_image;
+            }
+
+            set
+            {
+                this._imageLargePath = null;
+                this.SetProperty(ref this._large_image, value);
+            }
         }
 
         private ImageSource _image = null;
@@ -81,7 +101,7 @@ namespace TestAppFlickr.Data
 
     public class FlickrDataItem : FlickrDataCommon
     {
-        public FlickrDataItem(String uniqueId, String title, String imageSmallPath, string imageLargePath, FlickrDataGroup group)
+        public FlickrDataItem(String uniqueId, String title, String imageSmallPath, String imageLargePath, FlickrDataGroup group)
             : base(uniqueId, title, imageSmallPath, imageLargePath)
         {
             this._group = group;
@@ -216,7 +236,7 @@ namespace TestAppFlickr.Data
             foreach (var i in photos)
             {
                 string imageSmall = i.SmallUrl;
-                string imageLarge = i.LargeUrl;
+                string imageLarge = i.MediumUrl;
 
                 
                 if (imageSmall != null && feedGroup.Image == null) feedGroup.SetImage(imageSmall);
