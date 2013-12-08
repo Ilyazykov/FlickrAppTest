@@ -22,9 +22,9 @@ namespace TestAppFlickr
     /// A page that displays details for a single item within a group while allowing gestures to
     /// flip through other items belonging to the same group.
     /// </summary>
-    public sealed partial class ItemDetailPage : TestAppFlickr.Common.LayoutAwarePage
+    public sealed partial class ViewPage : TestAppFlickr.Common.LayoutAwarePage
     {
-        public ItemDetailPage()
+        public ViewPage()
         {
             this.InitializeComponent();
         }

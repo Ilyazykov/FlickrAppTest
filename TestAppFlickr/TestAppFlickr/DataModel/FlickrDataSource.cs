@@ -197,7 +197,7 @@ namespace TestAppFlickr.Data
         static string flickrKey = "d2845fd835868cc17fa4c1e98c03a174";
         static string sharedSecret = "ea9da11a741633e9";
 
-
+        static int NumberOfItems = 12;
 
         public static readonly ObservableCollection<FlickrDataGroup> AllGroups = new ObservableCollection<FlickrDataGroup>();
 
@@ -233,6 +233,7 @@ namespace TestAppFlickr.Data
             Flickr flickr = new Flickr(flickrKey, sharedSecret);
             PhotoCollection photos = flickr.PhotosGetRecent();
 
+            int number = 0;
             foreach (var i in photos)
             {
                 string imageSmall = i.SmallUrl;
@@ -240,6 +241,9 @@ namespace TestAppFlickr.Data
 
                 feedGroup.Items.Add(new FlickrDataItem(
                     uniqueId: i.PhotoId, title: i.Title, imageSmallPath: i.SmallUrl, imageLargePath: imageLarge, @group: feedGroup));
+
+                number++;
+                if (number >= NumberOfItems) break;
             }
 
             AllGroups.Add(feedGroup);

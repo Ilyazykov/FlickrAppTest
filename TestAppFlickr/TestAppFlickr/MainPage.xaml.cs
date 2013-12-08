@@ -21,9 +21,9 @@ namespace TestAppFlickr
     /// <summary>
     /// A page that displays a grouped collection of items.
     /// </summary>
-    public sealed partial class GroupedItemsPage : TestAppFlickr.Common.LayoutAwarePage
+    public sealed partial class MainPage : TestAppFlickr.Common.LayoutAwarePage
     {
-        public GroupedItemsPage()
+        public MainPage()
         {
             this.InitializeComponent();
         }
@@ -37,7 +37,7 @@ namespace TestAppFlickr
         void ItemView_ItemClick(object sender, ItemClickEventArgs e)
         {
             var itemId = ((FlickrDataItem)e.ClickedItem).UniqueId;
-            this.Frame.Navigate(typeof(ItemDetailPage), itemId);
+            this.Frame.Navigate(typeof(ViewPage), itemId);
         }
     }
 }
