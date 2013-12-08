@@ -65,5 +65,10 @@ namespace TestAppFlickr
             var selectedItem = (FlickrDataItem)this.flipView.SelectedItem;
             pageState["SelectedItem"] = selectedItem.UniqueId;
         }
+
+        private void flipView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            this.pageTitle.Text = flipView.SelectedItem.ToString();
+        }
     }
 }

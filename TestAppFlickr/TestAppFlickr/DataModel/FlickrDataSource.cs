@@ -238,12 +238,8 @@ namespace TestAppFlickr.Data
                 string imageSmall = i.SmallUrl;
                 string imageLarge = i.MediumUrl;
 
-                
-                if (imageSmall != null && feedGroup.Image == null) feedGroup.SetImage(imageSmall);
-                if (imageSmall == null) imageSmall = "ms-appx:///Assets/DarkGray.png";
-
                 feedGroup.Items.Add(new FlickrDataItem(
-                    uniqueId: i.PhotoId, title: i.Title, imageSmallPath: imageSmall, imageLargePath: imageLarge, @group: feedGroup));
+                    uniqueId: i.PhotoId, title: i.Title, imageSmallPath: i.SmallUrl, imageLargePath: imageLarge, @group: feedGroup));
             }
 
             AllGroups.Add(feedGroup);
