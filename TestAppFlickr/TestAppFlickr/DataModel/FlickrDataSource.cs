@@ -10,11 +10,7 @@ using Windows.Foundation.Collections;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.Web.Syndication;
 using System.Collections.Specialized;
-using System.Threading.Tasks;
-using System.Text.RegularExpressions;
-using System.IO;
 using FlickrNet;
 
 namespace TestAppFlickr.Data
