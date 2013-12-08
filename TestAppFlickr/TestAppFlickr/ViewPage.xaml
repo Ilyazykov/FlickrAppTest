@@ -44,24 +44,11 @@
             x:Name="flipView"
             Grid.RowSpan="2"
             ItemsSource="{Binding Source={StaticResource itemsViewSource}}">
-
             <FlipView.ItemTemplate>
                 <DataTemplate>
-                    
-                            <!-- Content is allowed to flow across as many columns as needed -->
-                            <common:RichTextColumns>
-                                <RichTextBlock>
-                                    <!--<Paragraph>
-                                        <Run FontSize="26.667" FontWeight="Light" Text="{Binding Title}"/>
-                                    </Paragraph>-->
-                                    <Paragraph>
-                                        <InlineUIContainer>
-                                            <Image x:Name="image" Stretch="Uniform" Source="{Binding Image}" AutomationProperties.Name="{Binding Title}"/>
-                                        </InlineUIContainer>
-                                    </Paragraph>
-                                </RichTextBlock>
-                            </common:RichTextColumns>
-
+                    <Grid HorizontalAlignment="Stretch">
+                        <Image x:Name="image" Stretch="Uniform" Source="{Binding Image}"/>
+                    </Grid>
                 </DataTemplate>
             </FlipView.ItemTemplate>
         </FlipView>
@@ -73,7 +60,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Button x:Name="backButton" Click="GoBack" IsEnabled="{Binding Frame.CanGoBack, ElementName=pageRoot}" Style="{StaticResource BackButtonStyle}"/>
-            <TextBlock x:Name="pageTitle" Text="ololo" Style="{StaticResource PageHeaderTextStyle}" Grid.Column="1"/>
+            <TextBlock x:Name="pageTitle" Style="{StaticResource PageHeaderTextStyle}" Grid.Column="1"/>
         </Grid>
 
         

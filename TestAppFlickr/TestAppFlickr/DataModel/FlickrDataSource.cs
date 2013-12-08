@@ -24,11 +24,12 @@ namespace TestAppFlickr.Data
     {
         private static Uri _baseUri = new Uri("ms-appx:///");
 
-        public FlickrDataCommon(String uniqueId, String title, String imagePath)
+        public FlickrDataCommon(String uniqueId, String title, String imageSmallPath, String imageLargePath)
         {
             this._uniqueId = uniqueId;
             this._title = title;
-            this._imagePath = imagePath;
+            this._imageSmallPath = imageSmallPath;
+
         }
 
         private string _uniqueId = string.Empty;
@@ -45,36 +46,22 @@ namespace TestAppFlickr.Data
             set { this.SetProperty(ref this._title, value); }
         }
 
-        private string _subtitle = string.Empty;
-        public string Subtitle
-        {
-            get { return this._subtitle; }
-            set { this.SetProperty(ref this._subtitle, value); }
-        }
-
-        private string _description = string.Empty;
-        public string Description
-        {
-            get { return this._description; }
-            set { this.SetProperty(ref this._description, value); }
-        }
-
         private ImageSource _image = null;
-        private String _imagePath = null;
+        private String _imageSmallPath = null;
         public ImageSource Image
         {
             get
             {
-                if (this._image == null && this._imagePath != null)
+                if (this._image == null && this._imageSmallPath != null)
                 {
-                    this._image = new BitmapImage(new Uri(FlickrDataCommon._baseUri, this._imagePath));
+                    this._image = new BitmapImage(new Uri(FlickrDataCommon._baseUri, this._imageSmallPath));
                 }
                 return this._image;
             }
 
             set
             {
-                this._imagePath = null;
+                this._imageSmallPath = null;
                 this.SetProperty(ref this._image, value);
             }
         }
@@ -82,7 +69,7 @@ namespace TestAppFlickr.Data
         public void SetImage(String path)
         {
             this._image = null;
-            this._imagePath = path;
+            this._imageSmallPath = path;
             this.OnPropertyChanged("Image");
         }
 
@@ -94,8 +81,8 @@ namespace TestAppFlickr.Data
 
     public class FlickrDataItem : FlickrDataCommon
     {
-        public FlickrDataItem(String uniqueId, String title, String imagePath, FlickrDataGroup group)
-            : base(uniqueId, title, imagePath)
+        public FlickrDataItem(String uniqueId, String title, String imageSmallPath, string imageLargePath, FlickrDataGroup group)
+            : base(uniqueId, title, imageSmallPath, imageLargePath)
         {
             this._group = group;
         }
@@ -110,8 +97,8 @@ namespace TestAppFlickr.Data
 
     public class FlickrDataGroup : FlickrDataCommon
     {
-        public FlickrDataGroup(String uniqueId, String title, String imagePath)
-            : base(uniqueId, title, imagePath)
+        public FlickrDataGroup(String uniqueId)
+            : base(uniqueId, null, null, null)
         {
             Items.CollectionChanged += ItemsCollectionChanged;
         }
@@ -181,7 +168,7 @@ namespace TestAppFlickr.Data
         private ObservableCollection<FlickrDataItem> _topItem = new ObservableCollection<FlickrDataItem>();
         public ObservableCollection<FlickrDataItem> TopItems
         {
-            get {return this._topItem; }
+            get { return this._topItem; }
         }
     }
 
@@ -221,20 +208,22 @@ namespace TestAppFlickr.Data
 
 			if (FlickrDataSource.GetGroup("test") != null) return;
 			
-            var feedGroup = new FlickrDataGroup(uniqueId: "test", title: null, imagePath: null);
+            var feedGroup = new FlickrDataGroup(uniqueId: "test");
 
             Flickr flickr = new Flickr(flickrKey, sharedSecret);
             PhotoCollection photos = flickr.PhotosGetRecent();
 
             foreach (var i in photos)
             {
-                string imagePath = i.SmallUrl;
+                string imageSmall = i.SmallUrl;
+                string imageLarge = i.LargeUrl;
+
                 
-                if (imagePath != null && feedGroup.Image == null) feedGroup.SetImage(imagePath);
-                if (imagePath == null) imagePath = "ms-appx:///Assets/DarkGray.png";
+                if (imageSmall != null && feedGroup.Image == null) feedGroup.SetImage(imageSmall);
+                if (imageSmall == null) imageSmall = "ms-appx:///Assets/DarkGray.png";
 
                 feedGroup.Items.Add(new FlickrDataItem(
-                    uniqueId: i.PhotoId, title: i.Title, imagePath: imagePath, @group: feedGroup));
+                    uniqueId: i.PhotoId, title: i.Title, imageSmallPath: imageSmall, imageLargePath: imageLarge, @group: feedGroup));
             }
 
             AllGroups.Add(feedGroup);

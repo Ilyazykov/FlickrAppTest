@@ -51,6 +51,7 @@ namespace TestAppFlickr
             this.DefaultViewModel["Group"] = item.Group;
             this.DefaultViewModel["Items"] = item.Group.Items;
             this.flipView.SelectedItem = item;
+            this.pageTitle.Text = item.Title;
         }
 
         /// <summary>
