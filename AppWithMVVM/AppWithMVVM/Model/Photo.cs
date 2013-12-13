@@ -1,15 +1,20 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 
-namespace AppWithMVVM.ViewModel
+namespace AppWithMVVM.Model
 {
-    public class MainViewModel : ViewModelBase
+    class Photo : ObservableObject
     {
         private string _Title;
         public string Title
         {
-            get
+            get 
             {
-                return _Title;
+                return _Title;           
             }
             set
             {
@@ -41,11 +46,6 @@ namespace AppWithMVVM.ViewModel
             {
                 _LargeUrl = value;
             }
-        }
-
-        public MainViewModel()
-        {
-            Title = "ololo";
         }
     }
 }
