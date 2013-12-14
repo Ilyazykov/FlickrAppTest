@@ -2,6 +2,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Windows.UI.Popups;
 using System;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace AppWithMVVM.ViewModel
 {
@@ -46,31 +47,22 @@ namespace AppWithMVVM.ViewModel
             }
         }
 
+        public RelayCommand NavigateToViewPage { get; private set; }
+
         public MainViewModel()
         {
             Title = "ololo";
 
-            ViewPageCommand = new RelayCommand( () => GoToViewPage() );
+            NavigateToViewPage = new RelayCommand( () => GoToViewPage() );
         }
 
         private object GoToViewPage()
         {
-            messageBox("Navigate to Page 2!");
+            var msg = new GoToPageMessage() { PageType = typeof(Views.ViewPage) };
+            Messenger.Default.Send<GoToPageMessage>(msg);
 
             return null;
         }
 
-        protected async void messageBox(string msg)
-        {
-            var msgDlg = new Windows.UI.Popups.MessageDialog(msg);
-            msgDlg.DefaultCommandIndex = 1;
-            await msgDlg.ShowAsync();
-        }
-
-        public RelayCommand ViewPageCommand
-        {
-            get;
-            private set;
-        }
     }
 }
