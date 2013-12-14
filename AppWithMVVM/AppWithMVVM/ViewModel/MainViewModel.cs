@@ -1,4 +1,7 @@
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
+using Windows.UI.Popups;
+using System;
 
 namespace AppWithMVVM.ViewModel
 {
@@ -46,6 +49,28 @@ namespace AppWithMVVM.ViewModel
         public MainViewModel()
         {
             Title = "ololo";
+
+            ViewPageCommand = new RelayCommand( () => GoToViewPage() );
+        }
+
+        private object GoToViewPage()
+        {
+            messageBox("Navigate to Page 2!");
+
+            return null;
+        }
+
+        protected async void messageBox(string msg)
+        {
+            var msgDlg = new Windows.UI.Popups.MessageDialog(msg);
+            msgDlg.DefaultCommandIndex = 1;
+            await msgDlg.ShowAsync();
+        }
+
+        public RelayCommand ViewPageCommand
+        {
+            get;
+            private set;
         }
     }
 }

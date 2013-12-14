@@ -11,6 +11,13 @@
     <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
 
         <TextBlock Text="{Binding Title}" />
-        
+        <Button 
+            x:Name="ViewPageButton"
+            Content="Page2" 
+            HorizontalAlignment="Left" 
+            Margin="395,172,0,0" 
+            VerticalAlignment="Top"
+            Command="{Binding ViewPageCommand, Mode=OneWay}"/>
+
     </Grid>
 </Page>
