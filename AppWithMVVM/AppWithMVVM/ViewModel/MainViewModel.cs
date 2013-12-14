@@ -1,13 +1,23 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using Windows.UI.Popups;
-using System;
 using GalaSoft.MvvmLight.Messaging;
+using System.Collections.ObjectModel;
+using AppWithMVVM.Model;
+using System.Collections.Generic;
 
 namespace AppWithMVVM.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
+        public List<Customer> Customers
+        {
+            get
+            {
+                var customerCollection = new CustomerCollection();
+                return customerCollection.Customers;
+            }
+        }
+
         private string _Title;
         public string Title
         {
