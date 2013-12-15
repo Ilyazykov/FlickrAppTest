@@ -16,19 +16,16 @@ using Windows.UI.Xaml.Navigation;
 
 namespace FlickrMVVM
 {
-    public sealed partial class ImagePage : FlickrMVVM.Common.LayoutAwarePage
+    public sealed partial class ImagePage : Page
     {
         public ImagePage()
         {
             this.InitializeComponent();
         }
 
-        protected override void LoadState(Object navigationParameter, Dictionary<String, Object> pageState)
+        private void goBack(object sender, RoutedEventArgs e)
         {
-        }
-
-        protected override void SaveState(Dictionary<String, Object> pageState)
-        {
+            this.Frame.Navigate(typeof(MainPage));
         }
     }
 }

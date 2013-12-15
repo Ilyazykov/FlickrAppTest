@@ -39,7 +39,7 @@ namespace FlickrMVVM.Model
             foreach (var tempPhoto in tempPhotos)
             {
                 _photos.Add(
-                    new Photo(number, tempPhoto.Title, tempPhoto.SmallUrl, tempPhoto.MediumUrl));
+                    new Photo(number, tempPhoto.Title, tempPhoto.SmallUrl, tempPhoto.SmallUrl));
 
                 number++;
                 if (number >= howMany) break;
