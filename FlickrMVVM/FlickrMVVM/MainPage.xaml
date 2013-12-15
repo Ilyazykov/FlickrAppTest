@@ -21,8 +21,6 @@
                    Margin="120,0,30,40"
                    Style="{StaticResource PageHeaderTextStyle}"/>
 
-        <!--<Button Command="{Binding Page2Command, Mode=OneWay}"/>-->
-
         <GridView x:Name="gvMain" 
                   Grid.Row="1" 
                   Padding="116,37,40,46"
