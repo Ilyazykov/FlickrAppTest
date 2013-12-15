@@ -5,11 +5,14 @@ namespace FlickrMVVM.ViewModel
 {
     public class ImageViewModel : ViewModelBase
     {
-        public Photo Model { get; set; }
-
-        public ImageViewModel()
+        public Photo Model 
         {
-            Model = PageMessage.MessageParameters;
+            get
+            {
+                return PageMessage.MessageParameters;
+            }
         }
+
+        public ImageViewModel() { }
     }
 }

@@ -9,7 +9,7 @@ namespace FlickrMVVM
 {
     class PageMessage
     {
-        public System.Type PageType { get; set; }
+        public static System.Type PageType { get; set; }
         public static Photo MessageParameters { get; set; }
     }
 }

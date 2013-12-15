@@ -10,20 +10,16 @@ namespace FlickrMVVM.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        public ObservableCollection<Photo> Photos
-        {
-            get
-            {
-                var photoCollection = new MyPhotoCollection();
-                return photoCollection.Photos;
-            }
-        }
+        public ObservableCollection<Photo> Photos { get; set; }
 
         public string Title { get; set; }
 
         public MainViewModel()
         {
             Title = "Flickr";
+
+            var photoCollection = new MyPhotoCollection();
+            Photos = photoCollection.Photos;
         }
     }
 }

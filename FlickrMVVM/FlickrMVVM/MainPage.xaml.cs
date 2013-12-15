@@ -29,13 +29,8 @@ namespace FlickrMVVM
 
         private object ReceiveMessage(PageMessage action)
         {
-            this.Frame.Navigate(action.PageType);
+            this.Frame.Navigate(PageMessage.PageType);
             return null;
-        }
-
-        private void q(object sender, RoutedEventArgs e)
-        {
-            this.Frame.Navigate(typeof(ImagePage));
         }
     }
 }

@@ -18,8 +18,6 @@ namespace FlickrMVVM.Model
 
         public RelayCommand Page2Command { get; private set; }
 
-        public Photo() { }
-
         public Photo(int id, string title, string smallUrl, string largeUrl)
         {
             ID = id;
@@ -32,11 +30,15 @@ namespace FlickrMVVM.Model
 
         private object GoToPage2()
         {
-            var goToPage = new PageMessage() { PageType = typeof(ImagePage) };
+            //var dlg = new MessageDialog(Title);
+            //dlg.ShowAsync()
 
+            PageMessage.PageType = typeof(ImagePage);
             PageMessage.MessageParameters = this;
+            
+            PageMessage temp = new PageMessage();
+            Messenger.Default.Send<PageMessage>(temp);
 
-            Messenger.Default.Send<PageMessage>(goToPage);
             return null;
         }
     }
