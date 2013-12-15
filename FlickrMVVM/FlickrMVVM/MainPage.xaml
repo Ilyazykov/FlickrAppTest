@@ -21,7 +21,7 @@
                    Margin="120,0,30,40"
                    Style="{StaticResource PageHeaderTextStyle}"/>
 
-        <Button Command="{Binding Page2Command, Mode=OneWay}"/>
+        <!--<Button Command="{Binding Page2Command, Mode=OneWay}"/>-->
 
         <GridView x:Name="gvMain" 
                   Grid.Row="1" 
@@ -29,17 +29,19 @@
                   ItemsSource="{Binding Photos}"
                   SelectionMode="None"
                   IsSwipeEnabled="false"
-                  IsItemClickEnabled="True"
-                  ItemClick="q">
-            <WinRtBehaviors:Interaction.Behaviors>
-            </WinRtBehaviors:Interaction.Behaviors>
+                  IsItemClickEnabled="True">
+            
                 <GridView.ItemTemplate>
                 <DataTemplate>
                     
                     <Grid HorizontalAlignment="Left"
                           Width="250"
                           Height="250">
-                        
+                        <WinRtBehaviors:Interaction.Behaviors>
+                            <Win8nl_Behaviors:EventToBoundCommandBehavior
+                                Event="Tapped" Command="{Binding Page2Command}"/>
+                        </WinRtBehaviors:Interaction.Behaviors>
+
                         <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}">
                             <Image Source="{Binding SmallUrl}" Stretch="UniformToFill"/>
                         </Border>

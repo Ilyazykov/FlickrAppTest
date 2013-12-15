@@ -159,14 +159,38 @@
     <Reference Include="FlickrNet">
       <HintPath>..\packages\FlickrNet\FlickrNet.dll</HintPath>
     </Reference>
-    <Reference Include="GalaSoft.MvvmLight.Extras.Win8">
-      <HintPath>..\packages\MvvmLightLibs.4.2.30.0\lib\netcore45\GalaSoft.MvvmLight.Extras.Win8.dll</HintPath>
+    <Reference Include="GalaSoft.MvvmLight.Extras.Win8, Version=4.1.27.22661, Culture=neutral, PublicKeyToken=33a77f5c33c10a68, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Win8nl.1.0.9\lib\NetCore45\GalaSoft.MvvmLight.Extras.Win8.dll</HintPath>
     </Reference>
-    <Reference Include="GalaSoft.MvvmLight.Win8">
-      <HintPath>..\packages\MvvmLightLibs.4.2.30.0\lib\netcore45\GalaSoft.MvvmLight.Win8.dll</HintPath>
+    <Reference Include="GalaSoft.MvvmLight.Win8, Version=4.1.27.22661, Culture=neutral, PublicKeyToken=7f0ea4153a3589fc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Win8nl.1.0.9\lib\NetCore45\GalaSoft.MvvmLight.Win8.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.ServiceLocation">
-      <HintPath>..\packages\MvvmLightLibs.4.2.30.0\lib\netcore45\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=619affe60327fc48, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Win8nl.1.0.9\lib\NetCore45\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Core">
+      <HintPath>..\packages\Rx-Core.2.1.30214.0\lib\NetCore45\System.Reactive.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces">
+      <HintPath>..\packages\Rx-Interfaces.2.1.30214.0\lib\NetCore45\System.Reactive.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Linq">
+      <HintPath>..\packages\Rx-Linq.2.1.30214.0\lib\NetCore45\System.Reactive.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices">
+      <HintPath>..\packages\Rx-PlatformServices.2.1.30214.0\lib\NetCore45\System.Reactive.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="Win8nl">
+      <HintPath>..\packages\Win8nl.1.0.9\lib\NetCore45\Win8nl.dll</HintPath>
+    </Reference>
+    <Reference Include="Win8nl.External">
+      <HintPath>..\packages\Win8nl.1.0.9\lib\NetCore45\Win8nl.External.dll</HintPath>
+    </Reference>
+    <Reference Include="Win8nl.Utilities">
+      <HintPath>..\packages\Win8nl.1.0.9\lib\NetCore45\Win8nl.Utilities.dll</HintPath>
     </Reference>
     <Reference Include="WinRtBehaviors">
       <HintPath>..\packages\WinRtBehaviors.1.0.3\lib\winrt45\WinRtBehaviors.dll</HintPath>
