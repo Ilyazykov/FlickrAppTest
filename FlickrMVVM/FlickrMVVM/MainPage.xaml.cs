@@ -14,28 +14,23 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Popups;
-
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
+using GalaSoft.MvvmLight.Messaging;
 
 namespace FlickrMVVM
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class MainPage : Page
     {
         public MainPage()
         {
             this.InitializeComponent();
+
+            Messenger.Default.Register<PageMessage>(this, (action) => ReceiveMessage(action));
         }
 
-        /// <summary>
-        /// Invoked when this page is about to be displayed in a Frame.
-        /// </summary>
-        /// <param name="e">Event data that describes how this page was reached.  The Parameter
-        /// property is typically used to configure the page.</param>
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private object ReceiveMessage(PageMessage action)
         {
+            this.Frame.Navigate(action.PageType);
+            return null;
         }
 
         private void q(object sender, RoutedEventArgs e)

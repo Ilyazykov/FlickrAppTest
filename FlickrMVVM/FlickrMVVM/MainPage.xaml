@@ -6,6 +6,8 @@
     xmlns:common="using:FlickrMVVM.Common"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Win8nl_Behaviors="using:Win8nl.Behaviors"
+    xmlns:WinRtBehaviors="using:WinRtBehaviors"
     mc:Ignorable="d"
     DataContext="{Binding Main, Source={StaticResource Locator}}">
 
@@ -29,8 +31,9 @@
                   IsSwipeEnabled="false"
                   IsItemClickEnabled="True"
                   ItemClick="q">
-            
-            <GridView.ItemTemplate>
+            <WinRtBehaviors:Interaction.Behaviors>
+            </WinRtBehaviors:Interaction.Behaviors>
+                <GridView.ItemTemplate>
                 <DataTemplate>
                     
                     <Grid HorizontalAlignment="Left"

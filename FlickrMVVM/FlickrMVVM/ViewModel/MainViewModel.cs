@@ -1,8 +1,9 @@
-using System.Collections.ObjectModel;
-using GalaSoft.MvvmLight;
 using FlickrMVVM.Model;
-using GalaSoft.MvvmLight.Command;
+using System.Collections.ObjectModel;
 using Windows.UI.Popups;
+using GalaSoft.MvvmLight.Messaging;
+using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight;
 
 namespace FlickrMVVM.ViewModel
 {
@@ -28,10 +29,15 @@ namespace FlickrMVVM.ViewModel
             Page2Command = new RelayCommand( () => GoToPage2() );
         }
 
-        private void GoToPage2()
+        private object GoToPage2()
         {
-            var dlg = new MessageDialog("Navigate to Page 2!");
-            dlg.ShowAsync();
+            var msg = new PageMessage() { PageType = typeof(ImagePage) };
+
+            Photo temp = new Photo(0, "test", "http://cs4653.vk.me/u18828099/video/l_f9e2ac9e.jpg", "http://cs4653.vk.me/u18828099/video/l_f9e2ac9e.jpg"); 
+            PageMessage.MessageParameters = temp;
+
+            Messenger.Default.Send<PageMessage>(msg);
+            return null;
         }
     }
 }
