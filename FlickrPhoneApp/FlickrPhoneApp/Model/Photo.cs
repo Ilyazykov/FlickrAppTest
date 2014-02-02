@@ -4,8 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Windows.UI.Popups;
+// using System.Threading.Tasks;
+// using Windows.UI.Popups;
 
 namespace FlickrPhoneApp.Model
 {
@@ -33,11 +33,11 @@ namespace FlickrPhoneApp.Model
             //var dlg = new MessageDialog(Title);
             //dlg.ShowAsync()
 
-            PageMessage.PageType = typeof(ImagePage);
-            PageMessage.MessageParameters = this;
-
-            PageMessage temp = new PageMessage();
-            Messenger.Default.Send<PageMessage>(temp);
+//             PageMessage.PageType = typeof(ImagePage);
+//             PageMessage.MessageParameters = this;
+// 
+//             PageMessage temp = new PageMessage();
+//             Messenger.Default.Send<PageMessage>(temp);
 
             return null;
         }

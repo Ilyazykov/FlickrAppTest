@@ -9,7 +9,9 @@ namespace FlickrPhoneApp.ViewModel
         public ViewModelLocator()
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
+            
             SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<ImageViewModel>();
         }
 
         public MainViewModel Main
@@ -17,6 +19,14 @@ namespace FlickrPhoneApp.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<MainViewModel>();
+            }
+        }
+
+        public ImageViewModel ImageVM
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<ImageViewModel>();
             }
         }
         

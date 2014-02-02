@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 
 using FlickrNet;
@@ -33,17 +32,17 @@ namespace FlickrPhoneApp.Model
             string sharedSecret = "ea9da11a741633e9";
 
             Flickr flickr = new Flickr(flickrKey, sharedSecret);
-            PhotoCollection tempPhotos = flickr.PhotosGetRecent();
+            //PhotoCollection tempPhotos = flickr.PhotosGetRecent();
 
             int number = 0;
-            foreach (var tempPhoto in tempPhotos)
-            {
-                _photos.Add(
-                    new Photo(number, tempPhoto.Title, tempPhoto.SmallUrl, tempPhoto.SmallUrl));
-
-                number++;
-                if (number >= howMany) break;
-            }
+//             foreach (var tempPhoto in tempPhotos)
+//             {
+//                 _photos.Add(
+//                     new Photo(number, tempPhoto.Title, tempPhoto.SmallUrl, tempPhoto.SmallUrl));
+// 
+//                 number++;
+//                 if (number >= howMany) break;
+//             }
         }
     }
 }
