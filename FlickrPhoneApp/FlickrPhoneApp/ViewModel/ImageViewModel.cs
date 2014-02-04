@@ -2,7 +2,7 @@
 
 namespace FlickrPhoneApp.ViewModel
 {
-    class ImageViewModel
+    public class ImageViewModel : ViewModelBase
     {
         public string ApplicationTitle 
         { 

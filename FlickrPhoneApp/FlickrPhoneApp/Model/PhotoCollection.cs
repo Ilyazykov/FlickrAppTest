@@ -8,7 +8,7 @@ using FlickrNet;
 
 namespace FlickrPhoneApp.Model
 {
-    class MyPhotoCollection
+    public class MyPhotoCollection
     {
         private readonly ObservableCollection<Photo> _photos = new ObservableCollection<Photo>();
         public ObservableCollection<Photo> Photos
@@ -21,10 +21,10 @@ namespace FlickrPhoneApp.Model
             return _photos[id];
         }
 
-        public MyPhotoCollection()
-        {
-            GetPhotosFromFlickr(12);
-        }
+        //public MyPhotoCollection()
+        //{
+        //    GetPhotosFromFlickr(12);
+        //}
 
         private void GetPhotosFromFlickr(int howMany)
         {
@@ -43,6 +43,12 @@ namespace FlickrPhoneApp.Model
 //                 number++;
 //                 if (number >= howMany) break;
 //             }
+        }
+
+        public MyPhotoCollection()
+        {
+            _photos.Add(new Photo(0, "title0", "q", "q"));
+            _photos.Add(new Photo(1, "title1", "1", "1"));
         }
     }
 }
