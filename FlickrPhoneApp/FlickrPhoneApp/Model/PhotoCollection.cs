@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Windows;
 using System.Collections.ObjectModel;
-
 using FlickrNet;
+
 
 namespace FlickrPhoneApp.Model
 {
@@ -21,10 +18,10 @@ namespace FlickrPhoneApp.Model
             return _photos[id];
         }
 
-        //public MyPhotoCollection()
-        //{
-        //    GetPhotosFromFlickr(12);
-        //}
+        public MyPhotoCollection()
+        {
+            GetPhotosFromFlickr(12);
+        }
 
         private void GetPhotosFromFlickr(int howMany)
         {
@@ -32,23 +29,22 @@ namespace FlickrPhoneApp.Model
             string sharedSecret = "ea9da11a741633e9";
 
             Flickr flickr = new Flickr(flickrKey, sharedSecret);
-            //PhotoCollection tempPhotos = flickr.PhotosGetRecent();
 
-            int number = 0;
-//             foreach (var tempPhoto in tempPhotos)
-//             {
-//                 _photos.Add(
-//                     new Photo(number, tempPhoto.Title, tempPhoto.SmallUrl, tempPhoto.SmallUrl));
-// 
-//                 number++;
-//                 if (number >= howMany) break;
-//             }
-        }
+            flickr.PhotosGetRecentAsync(r =>
+            {
+                PhotoCollection tempPhotos = r.Result;
 
-        public MyPhotoCollection()
-        {
-            _photos.Add(new Photo(0, "title0", "q", "q"));
-            _photos.Add(new Photo(1, "title1", "1", "1"));
+                int number = 0;
+                foreach (var tempPhoto in tempPhotos)
+                {
+                    _photos.Add(
+                        new Photo(number, tempPhoto.Title, tempPhoto.SmallUrl, tempPhoto.SmallUrl));
+                
+                    number++;
+                    if (number >= howMany) break;
+                }
+
+            });
         }
     }
 }

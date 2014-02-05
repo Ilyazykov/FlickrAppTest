@@ -58,7 +58,7 @@
                                 x:Name="ID"
                                 Text="{Binding ID}"
                                 Margin="0,0,5,0"
-                                Style="{StaticResource PhoneTextExtraLargeStyle}"/>
+                                Style="{StaticResource PhoneTextSubtleStyle}"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
