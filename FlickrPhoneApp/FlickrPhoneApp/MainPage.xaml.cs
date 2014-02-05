@@ -32,11 +32,10 @@ namespace FlickrPhoneApp
         private object ReceivveMessage(GoToPageMessage action)
         {
             StringBuilder sb = new StringBuilder("/");
-            sb.Append(action.PageName);
+            sb.Append(GoToPageMessage.PageName);
             sb.Append(".xaml");
-            NavigationService.Navigate(
-                new System.Uri(sb.ToString(),
-                    System.UriKind.Relative));
+
+            NavigationService.Navigate(new System.Uri(sb.ToString(), System.UriKind.Relative));
             return null;
         }
     }

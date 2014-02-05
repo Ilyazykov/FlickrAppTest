@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight;
+﻿using FlickrPhoneApp.Model;
+using GalaSoft.MvvmLight;
 
 namespace FlickrPhoneApp.ViewModel
 {
@@ -24,12 +25,18 @@ namespace FlickrPhoneApp.ViewModel
         {
             get
             {
-                return "Welcome to Page 2";
+                return "Page2";
             }
         }
 
-        public ImageViewModel()
+        public Photo SelectedPhoto
         {
+            get
+            {
+                return GoToPageMessage.SelectedPhoto;
+            }
         }
+
+        public ImageViewModel() { }
     }
 }
