@@ -44,22 +44,30 @@
                 ItemsSource="{Binding Photos}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel>
-                            <StackPanel
-                                x:Name="DataTenplateStackPanel"
-                                Orientation="Horizontal">
-                                <TextBlock
-                                    x:Name="Title"
-                                    Text="{Binding Title}"
-                                    Margin="0,0,5,0"
-                                    Style="{StaticResource PhoneTextExtraLargeStyle}"/>
-                            </StackPanel>
-                            <TextBlock
-                                x:Name="ID"
-                                Text="{Binding ID}"
-                                Margin="0,0,5,0"
-                                Style="{StaticResource PhoneTextSubtleStyle}"/>
-                        </StackPanel>
+                        
+                        <Grid 
+                            HorizontalAlignment="Left"
+                            Width="250"
+                            Height="250">
+                            
+                                <Image 
+                                    Source="{Binding SmallUrl}" 
+                                    Stretch="UniformToFill"/>
+
+                                <StackPanel 
+                                    VerticalAlignment="Bottom"
+                                    Background="DarkGray">
+
+                                    <TextBlock
+                                        x:Name="ID"
+                                        Text="{Binding Title}"
+                                        Margin="0,0,5,0"
+                                        Style="{StaticResource PhoneTextSubtleStyle}"/>
+
+                                </StackPanel>
+                                
+                        </Grid>
+                        
                     </DataTemplate>
                 </ListBox.ItemTemplate>
                 <Custom:Interaction.Triggers>

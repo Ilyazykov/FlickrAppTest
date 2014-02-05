@@ -27,18 +27,13 @@
                 Style="{StaticResource PhoneTextNormalStyle}"/>
             <TextBlock 
                 x:Name="PageTitle" 
-                Text="{Binding PageName}"
+                Text="{Binding SelectedPhoto.Title}"
                 Margin="9,-7,0,0" 
                 Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <TextBlock Text="{Binding SelectedPhoto.Title}"
-                       Style="{StaticResource PhoneTextNormalStyle}"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       FontSize="40" />
-            
+            <Image Source="{Binding SelectedPhoto.SmallUrl}" Grid.RowSpan="2"/>
         </Grid>
     </Grid>
 
