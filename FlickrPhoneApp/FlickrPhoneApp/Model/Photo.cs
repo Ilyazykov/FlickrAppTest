@@ -24,22 +24,6 @@ namespace FlickrPhoneApp.Model
             Title = title;
             SmallUrl = smallUrl;
             LargeUrl = largeUrl;
-
-            Page2Command = new RelayCommand(() => GoToPage2());
-        }
-
-        private object GoToPage2()
-        {
-            //var dlg = new MessageDialog(Title);
-            //dlg.ShowAsync()
-
-//             PageMessage.PageType = typeof(ImagePage);
-//             PageMessage.MessageParameters = this;
-// 
-//             PageMessage temp = new PageMessage();
-//             Messenger.Default.Send<PageMessage>(temp);
-
-            return null;
         }
     }
 }

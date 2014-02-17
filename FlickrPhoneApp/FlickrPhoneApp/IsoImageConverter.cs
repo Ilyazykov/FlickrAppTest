@@ -109,12 +109,29 @@ namespace FlickrPhoneApp
 
         private object ExtractFromLocalStorage(Uri imageFileUri)
         {
-            throw new NotImplementedException();
+            string path = GetFileNameInIsolatedStorage(imageFileUri);
+
+            using (var file = Storage.OpenFile(path, FileMode.Open, FileAccess.Read))
+            {
+                var bitmap = new BitmapImage();
+                bitmap.SetSource(file);
+                return bitmap;
+            }
         }
 
-        private object LoadDefaultIfPassed(System.Uri imageFileUri, Object param2)
+        private object LoadDefaultIfPassed(System.Uri imageFileUri, string defaultImagePath)
         {
-            throw new NotImplementedException();
+            var defaultImageUri = (defaultImagePath ?? string.Empty);
+            if (!string.IsNullOrEmpty(defaultImageUri))
+            {
+                var bm = new BitmapImage(new Uri(defaultImageUri, UriKind.Relative));         //Load default Image
+                return bm;
+            }
+            else
+            {
+                var bm = new BitmapImage(imageFileUri);
+                return bm;
+            }
         }
 
         private Stream LoadFile(string file)
