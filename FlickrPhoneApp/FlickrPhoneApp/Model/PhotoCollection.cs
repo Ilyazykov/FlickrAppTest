@@ -80,23 +80,20 @@ namespace FlickrPhoneApp.Model
 
         private void WriteFlickrParametersToIsolatedStorage()
         {
-            //if (IsolatedStorageFile.GetUserStoreForApplication().FileExists("flickrParameters.txt") == false)
-            //{
-                using (var file = IsolatedStorageFile.GetUserStoreForApplication().CreateFile("flickrParameters.txt"))
+            using (var file = IsolatedStorageFile.GetUserStoreForApplication().CreateFile("flickrParameters.txt"))
+            {
+                using (var fileWriter = new StreamWriter(file))
                 {
-                    using (var fileWriter = new StreamWriter(file))
+                    foreach (var photo in _photos)
                     {
-                        foreach (var photo in _photos)
-                        {
-                            fileWriter.WriteLine(photo.ID);
-                            fileWriter.WriteLine(photo.Title);
-                            fileWriter.WriteLine(photo.SmallUrl);
-                            fileWriter.WriteLine(photo.LargeUrl);
-                        }
-                        fileWriter.WriteLine("end");
+                        fileWriter.WriteLine(photo.ID);
+                        fileWriter.WriteLine(photo.Title);
+                        fileWriter.WriteLine(photo.SmallUrl);
+                        fileWriter.WriteLine(photo.LargeUrl);
                     }
+                    fileWriter.WriteLine("end");
                 }
-            //}
+            }
         }
 
         private void ReadFlickrParametersFromIsolatedStorage()
