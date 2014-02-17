@@ -30,7 +30,7 @@ namespace FlickrPhoneApp.Model
             if (IsOnline())
             {
                 GetPhotosFromFlickr(12);
-                WriteFlickrParametersToIsolatedStorage();
+                
             }
             else
             {
@@ -72,14 +72,16 @@ namespace FlickrPhoneApp.Model
                     number++;
                     if (number >= howMany) break;
                 }
+
+                WriteFlickrParametersToIsolatedStorage();
             });
 
         }
 
         private void WriteFlickrParametersToIsolatedStorage()
         {
-            if (IsolatedStorageFile.GetUserStoreForApplication().FileExists("flickrParameters.txt") == false)
-            {
+            //if (IsolatedStorageFile.GetUserStoreForApplication().FileExists("flickrParameters.txt") == false)
+            //{
                 using (var file = IsolatedStorageFile.GetUserStoreForApplication().CreateFile("flickrParameters.txt"))
                 {
                     using (var fileWriter = new StreamWriter(file))
@@ -94,7 +96,7 @@ namespace FlickrPhoneApp.Model
                         fileWriter.WriteLine("end");
                     }
                 }
-            }
+            //}
         }
 
         private void ReadFlickrParametersFromIsolatedStorage()
