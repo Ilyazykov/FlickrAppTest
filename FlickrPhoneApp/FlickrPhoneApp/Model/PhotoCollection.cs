@@ -2,10 +2,13 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using System.IO.IsolatedStorage;
+using System.Net;
 using System.Net.NetworkInformation;
+using System.Net.Sockets;
 using System.Windows;
 
 using FlickrNet;
+using Microsoft.Phone.Net.NetworkInformation;
 
 namespace FlickrPhoneApp.Model
 {
@@ -24,54 +27,79 @@ namespace FlickrPhoneApp.Model
 
         public MyPhotoCollection()
         {
-            GetPhotosFromFlickr(12);
+            if (IsOnline())
+            {
+                GetPhotosFromFlickr(12);
+                WriteFlickrParametersToIsolatedStorage();
+            }
+            else
+            {
+                ReadFlickrParametersFromIsolatedStorage();
+            }
+        }
+
+        private bool IsOnline()
+        {
+            bool isNetworkAvailable = Microsoft.Phone.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable();
+            NetworkInterfaceType type = Microsoft.Phone.Net.NetworkInformation.NetworkInterface.NetworkInterfaceType;
+
+            if (isNetworkAvailable)
+            {
+                if (type == NetworkInterfaceType.Wireless80211)
+                    return true;
+            }
+
+            return false;
         }
 
         private void GetPhotosFromFlickr(int howMany)
         {
-            if (NetworkInterface.GetIsNetworkAvailable())
+            string flickrKey = "d2845fd835868cc17fa4c1e98c03a174";
+            string sharedSecret = "ea9da11a741633e9";
+
+            Flickr flickr = new Flickr(flickrKey, sharedSecret);
+
+            flickr.PhotosGetRecentAsync(r =>
             {
-                string flickrKey = "d2845fd835868cc17fa4c1e98c03a174";
-                string sharedSecret = "ea9da11a741633e9";
+                PhotoCollection tempPhotos = r.Result;
 
-                Flickr flickr = new Flickr(flickrKey, sharedSecret);
-
-                flickr.PhotosGetRecentAsync(r =>
+                int number = 0;
+                foreach (var tempPhoto in tempPhotos)
                 {
-                    PhotoCollection tempPhotos = r.Result;
+                    _photos.Add(
+                        new Photo(number, tempPhoto.Title, tempPhoto.SmallUrl, tempPhoto.SmallUrl));
 
-                    int number = 0;
-                    foreach (var tempPhoto in tempPhotos)
-                    {
-                        _photos.Add(
-                            new Photo(number, tempPhoto.Title, tempPhoto.SmallUrl, tempPhoto.SmallUrl));
+                    number++;
+                    if (number >= howMany) break;
+                }
+            });
 
-                        number++;
-                        if (number >= howMany) break;
-                    }
+        }
 
-                });
-
-                //WriteSettingToIsolatedStorage
-                if (IsolatedStorageFile.GetUserStoreForApplication().FileExists("flickrParameters.txt"))
+        private void WriteFlickrParametersToIsolatedStorage()
+        {
+            if (IsolatedStorageFile.GetUserStoreForApplication().FileExists("flickrParameters.txt") == false)
+            {
+                using (var file = IsolatedStorageFile.GetUserStoreForApplication().CreateFile("flickrParameters.txt"))
                 {
-                    using (var file = IsolatedStorageFile.GetUserStoreForApplication().CreateFile("flickrParameters.txt"))
+                    using (var fileWriter = new StreamWriter(file))
                     {
-                        using (var fileWriter = new StreamWriter(file))
+                        foreach (var photo in _photos)
                         {
-                            foreach (var photo in _photos)
-                            {
-                                fileWriter.WriteLine(photo.ID);
-                                fileWriter.WriteLine(photo.Title);
-                                fileWriter.WriteLine(photo.SmallUrl);
-                                fileWriter.WriteLine(photo.LargeUrl);
-                            }
-                            fileWriter.WriteLine("end");
+                            fileWriter.WriteLine(photo.ID);
+                            fileWriter.WriteLine(photo.Title);
+                            fileWriter.WriteLine(photo.SmallUrl);
+                            fileWriter.WriteLine(photo.LargeUrl);
                         }
+                        fileWriter.WriteLine("end");
                     }
                 }
             }
-            else
+        }
+
+        private void ReadFlickrParametersFromIsolatedStorage()
+        {
+            if (IsolatedStorageFile.GetUserStoreForApplication().FileExists("flickrParameters.txt"))
             {
                 using (var file = IsolatedStorageFile.GetUserStoreForApplication().OpenFile("flickrParameters.txt", FileMode.Open))
                 {
@@ -89,11 +117,6 @@ namespace FlickrPhoneApp.Model
 
                             id = fileReader.ReadLine();
                         }
-                        
-
-
-                        //_photos.Add(
-                        //    new Photo(number, tempPhoto.Title, tempPhoto.SmallUrl, tempPhoto.SmallUrl));
                     }
                 }
             }
