@@ -51,7 +51,7 @@
                             Height="250">
                             
                                 <Image 
-                                    Source="{Binding SmallUrl}" 
+                                    Source="{Binding SmallUrl, Converter={StaticResource IsoImageConverter}}" 
                                     Stretch="UniformToFill"/>
 
                                 <StackPanel 
