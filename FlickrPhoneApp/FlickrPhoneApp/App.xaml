@@ -7,11 +7,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:vm="clr-namespace:FlickrPhoneApp.ViewModel"
     xmlns:local="clr-namespace:FlickrPhoneApp"
-    d1p1:Ignorable="d" xmlns:d1p1="http://schemas.openxmlformats.org/markup-compatibility/2006">
+    d1p1:Ignorable="d" 
+    xmlns:d1p1="http://schemas.openxmlformats.org/markup-compatibility/2006">
   
     <Application.Resources>
         <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True"/>
-        <!--<local:IsoImageConverter x:Key="IsoImageConverter"/>-->
+        <local:IsoImageConverter x:Key="IsoImageConverter"/>
     </Application.Resources>
     
     <Application.ApplicationLifetimeObjects>
