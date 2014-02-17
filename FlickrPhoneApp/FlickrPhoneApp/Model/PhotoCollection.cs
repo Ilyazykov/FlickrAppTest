@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.IO.IsolatedStorage;
 using System.Net.NetworkInformation;
 using System.Windows;
 
@@ -49,10 +51,51 @@ namespace FlickrPhoneApp.Model
                     }
 
                 });
+
+                //WriteSettingToIsolatedStorage
+                if (IsolatedStorageFile.GetUserStoreForApplication().FileExists("flickrParameters.txt"))
+                {
+                    using (var file = IsolatedStorageFile.GetUserStoreForApplication().CreateFile("flickrParameters.txt"))
+                    {
+                        using (var fileWriter = new StreamWriter(file))
+                        {
+                            foreach (var photo in _photos)
+                            {
+                                fileWriter.WriteLine(photo.ID);
+                                fileWriter.WriteLine(photo.Title);
+                                fileWriter.WriteLine(photo.SmallUrl);
+                                fileWriter.WriteLine(photo.LargeUrl);
+                            }
+                            fileWriter.WriteLine("end");
+                        }
+                    }
+                }
             }
             else
             {
-                throw new Exception("Internet is not available");
+                using (var file = IsolatedStorageFile.GetUserStoreForApplication().OpenFile("flickrParameters.txt", FileMode.Open))
+                {
+                    using (var fileReader = new StreamReader(file))
+                    {
+                        string id = fileReader.ReadLine();
+                        while (id != "end")
+                        {
+                            string title = fileReader.ReadLine();
+                            string smallUrl = fileReader.ReadLine();
+                            string largeUrl = fileReader.ReadLine();
+
+                            _photos.Add(
+                                new Photo(Convert.ToInt32(id), title, smallUrl, largeUrl));
+
+                            id = fileReader.ReadLine();
+                        }
+                        
+
+
+                        //_photos.Add(
+                        //    new Photo(number, tempPhoto.Title, tempPhoto.SmallUrl, tempPhoto.SmallUrl));
+                    }
+                }
             }
         }
     }

@@ -16,8 +16,6 @@ namespace FlickrPhoneApp.Model
         public string SmallUrl { get; set; }
         public string LargeUrl { get; set; }
 
-        public RelayCommand Page2Command { get; private set; }
-
         public Photo(int id, string title, string smallUrl, string largeUrl)
         {
             ID = id;

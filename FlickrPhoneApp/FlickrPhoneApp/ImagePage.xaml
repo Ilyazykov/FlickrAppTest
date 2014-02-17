@@ -33,7 +33,7 @@
         </StackPanel>
 
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <Image Source="{Binding SelectedPhoto.SmallUrl}" Grid.RowSpan="2"/>
+            <Image Source="{Binding SelectedPhoto.SmallUrl, Converter={StaticResource IsoImageConverter}}" Grid.RowSpan="2"/>
         </Grid>
     </Grid>
 
