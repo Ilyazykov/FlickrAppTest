@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:control="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Custom="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
@@ -14,73 +15,127 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     shell:SystemTray.IsVisible="True"
-    DataContext="{Binding Main, Source={StaticResource Locator}}">
+    d:DataContext="{Binding Main, Source={StaticResource Locator}}">
 
     <Grid x:Name="LayoutRoot" Background="Transparent">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-
-        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock 
-                x:Name="ApplicationTitle" 
-                Text="{Binding ApplicationTitle}"
-                Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock 
-                x:Name="PageTitle" 
-                Text="{Binding PageName}"
-                Margin="9,-7,0,0" 
-                Style="{StaticResource PhoneTextTitle1Style}"/>
-        </StackPanel>
-
-        <Grid 
-            x:Name="ContentGrid" 
-            Grid.Row="1">
-            <ListBox
-                x:Name="ImageListBox"
+        
+        <control:Panorama>
+            <control:Panorama.Title>
+                <Grid Margin="0,80,0,0">
+                    <Image Source="Flickr_logo.png"
+                           HorizontalAlignment="Center"
+                           Height="150"/>
+                </Grid>
+            </control:Panorama.Title>
+            
+            <control:PanoramaItem Header="first item">
+                <ListBox
                 Margin="10"
                 
                 ItemsSource="{Binding Photos}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        
-                        <Grid 
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid 
                             HorizontalAlignment="Left"
                             Width="250"
                             Height="250">
-                            
                                 <Image 
                                     Source="{Binding SmallUrl, Converter={StaticResource IsoImageConverter}}" 
                                     Stretch="UniformToFill"/>
-
                                 <StackPanel 
                                     VerticalAlignment="Bottom"
                                     Background="DarkGray">
-
                                     <TextBlock
                                         x:Name="ID"
                                         Text="{Binding Title}"
                                         Margin="0,0,5,0"
                                         Style="{StaticResource PhoneTextSubtleStyle}"/>
-
                                 </StackPanel>
-                                
-                        </Grid>
-                        
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-                <Custom:Interaction.Triggers>
-                    <Custom:EventTrigger EventName="SelectionChanged">
-                        <GalaSoft_MvvmLight_Command:EventToCommand
-                            x:Name="SelectionCommand"
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <Custom:Interaction.Triggers>
+                        <Custom:EventTrigger EventName="SelectionChanged">
+                            <GalaSoft_MvvmLight_Command:EventToCommand
                             Command="{Binding DetailsPageCommand, Mode=OneWay}"
                             CommandParameter="{Binding SelectedItem, ElementName=ImageListBox}" />
-                    </Custom:EventTrigger>
-                </Custom:Interaction.Triggers>
-            </ListBox>
-
-        </Grid>
+                        </Custom:EventTrigger>
+                    </Custom:Interaction.Triggers>
+                </ListBox>
+            </control:PanoramaItem>
+            
+            
+            <control:PanoramaItem Header="second item">
+                <ListBox
+                Margin="10"
+                ItemsSource="{Binding Photos}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid 
+                            HorizontalAlignment="Left"
+                            Width="250"
+                            Height="250">
+                                <Image 
+                                    Source="{Binding SmallUrl, Converter={StaticResource IsoImageConverter}}" 
+                                    Stretch="UniformToFill"/>
+                                <StackPanel 
+                                    VerticalAlignment="Bottom"
+                                    Background="DarkGray">
+                                    <TextBlock
+                                        x:Name="ID"
+                                        Text="{Binding Title}"
+                                        Margin="0,0,5,0"
+                                        Style="{StaticResource PhoneTextSubtleStyle}"/>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <Custom:Interaction.Triggers>
+                        <Custom:EventTrigger EventName="SelectionChanged">
+                            <GalaSoft_MvvmLight_Command:EventToCommand
+                            Command="{Binding DetailsPageCommand, Mode=OneWay}"
+                            CommandParameter="{Binding SelectedItem, ElementName=ImageListBox}" />
+                        </Custom:EventTrigger>
+                    </Custom:Interaction.Triggers>
+                </ListBox>
+            </control:PanoramaItem>
+            
+            
+            <control:PanoramaItem Header="third item">
+                <ListBox
+                Margin="10"
+                ItemsSource="{Binding Photos}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid 
+                            HorizontalAlignment="Left"
+                            Width="250"
+                            Height="250">
+                                <Image 
+                                    Source="{Binding SmallUrl, Converter={StaticResource IsoImageConverter}}" 
+                                    Stretch="UniformToFill"/>
+                                <StackPanel 
+                                    VerticalAlignment="Bottom"
+                                    Background="DarkGray">
+                                    <TextBlock
+                                        x:Name="ID"
+                                        Text="{Binding Title}"
+                                        Margin="0,0,5,0"
+                                        Style="{StaticResource PhoneTextSubtleStyle}"/>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <Custom:Interaction.Triggers>
+                        <Custom:EventTrigger EventName="SelectionChanged">
+                            <GalaSoft_MvvmLight_Command:EventToCommand
+                            Command="{Binding DetailsPageCommand, Mode=OneWay}"
+                            CommandParameter="{Binding SelectedItem, ElementName=ImageListBox}" />
+                        </Custom:EventTrigger>
+                    </Custom:Interaction.Triggers>
+                </ListBox>
+            </control:PanoramaItem>
+        </control:Panorama>
     </Grid>
 
 </phone:PhoneApplicationPage>

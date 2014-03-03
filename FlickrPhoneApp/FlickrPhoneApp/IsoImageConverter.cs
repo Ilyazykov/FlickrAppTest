@@ -83,7 +83,7 @@ namespace FlickrPhoneApp
             IsolatedStorageFileStream outputStream = null;
             try
             {
-                if (!file.DirectoryExists(StorageFolder));
+                if (!file.DirectoryExists(StorageFolder))
                 {
                     file.CreateDirectory(StorageFolder);
                 }
