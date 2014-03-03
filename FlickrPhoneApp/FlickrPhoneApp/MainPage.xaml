@@ -17,7 +17,7 @@
     shell:SystemTray.IsVisible="True"
     DataContext="{Binding Main, Source={StaticResource Locator}}">
 
-    <Grid x:Name="LayoutRoot" Background="Transparent">
+    <Grid x:Name="LayoutRoot">
         
         <control:Panorama>
             <control:Panorama.Title>
@@ -27,8 +27,8 @@
                            Height="150"/>
                 </Grid>
             </control:Panorama.Title>
-            
-            <control:PanoramaItem Header="first item">
+
+            <control:PanoramaItem Header="first item" HeaderTemplate="{StaticResource BlackItemHeaderTemplate}">
                 <ListBox
                     x:Name="ImageListBoxFirst"
                     Margin="10"
@@ -63,9 +63,9 @@
                     </Custom:Interaction.Triggers>
                 </ListBox>
             </control:PanoramaItem>
-            
-            
-            <control:PanoramaItem Header="second item">
+
+
+            <control:PanoramaItem Header="second item" HeaderTemplate="{StaticResource BlackItemHeaderTemplate}">
                 <ListBox
                     x:Name="ImageListBoxSecond"
                     Margin="10"
@@ -100,9 +100,9 @@
                     </Custom:Interaction.Triggers>
                 </ListBox>
             </control:PanoramaItem>
-            
-            
-            <control:PanoramaItem Header="third item">
+
+
+            <control:PanoramaItem Header="third item"  HeaderTemplate="{StaticResource BlackItemHeaderTemplate}">
                 <ListBox
                     x:Name="ImageListBoxThird"
                     Margin="10"

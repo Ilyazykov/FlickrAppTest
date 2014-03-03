@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone" 
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone" 
+    xmlns:control="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:vm="clr-namespace:FlickrPhoneApp.ViewModel"
     xmlns:local="clr-namespace:FlickrPhoneApp"
@@ -13,6 +14,26 @@
     <Application.Resources>
         <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True"/>
         <local:IsoImageConverter x:Key="IsoImageConverter"/>
+        
+        <Style TargetType="control:Panorama">
+            <Setter Property="Background" Value="White"/>
+        </Style>
+        
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="Black"/>
+        </Style>
+        
+        <Style TargetType="Grid">
+            <Setter Property="Background" Value="White"/>
+        </Style>
+        
+        <DataTemplate x:Key="BlackItemHeaderTemplate">
+            <Grid>
+                <ContentPresenter>
+                    <TextBlock Text="{Binding}" Foreground="Black"/>
+                </ContentPresenter>
+            </Grid>
+        </DataTemplate>
     </Application.Resources>
     
     <Application.ApplicationLifetimeObjects>
