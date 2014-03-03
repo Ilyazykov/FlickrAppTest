@@ -12,28 +12,50 @@
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True"
-    DataContext="{Binding ImageVM, Source={StaticResource Locator}}">
+    DataContext="{Binding ImageVM, Source={StaticResource Locator}}" d:DesignHeight="768" d:DesignWidth="480">
+    
+	<phone:PhoneApplicationPage.Resources>
+		<Storyboard x:Name="TitleStoryboard">
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="PageTitle">
+				<EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
+        </Storyboard>
 
-    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Storyboard x:Name="TitleStoryboardReverse">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="PageTitle">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </phone:PhoneApplicationPage.Resources>
+
+    <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
+        
+        
         <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
             <TextBlock 
                 x:Name="ApplicationTitle" 
+                Foreground="Black"
                 Text="{Binding ApplicationTitle}"
                 Style="{StaticResource PhoneTextNormalStyle}"/>
             <TextBlock 
-                x:Name="PageTitle" 
+                x:Name="PageTitle"
+                Foreground="Black"
                 Text="{Binding SelectedPhoto.Title}"
                 Margin="9,-7,0,0" 
                 Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <Image Source="{Binding SelectedPhoto.SmallUrl, Converter={StaticResource IsoImageConverter}}" Grid.RowSpan="2"/>
+            <Image 
+                Source="{Binding SelectedPhoto.SmallUrl, Converter={StaticResource IsoImageConverter}}" 
+                Tap="Image_Tap_1">
+            </Image>
         </Grid>
     </Grid>
 

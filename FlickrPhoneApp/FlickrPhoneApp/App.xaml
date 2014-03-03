@@ -26,7 +26,11 @@
         <Style TargetType="Grid">
             <Setter Property="Background" Value="White"/>
         </Style>
-        
+
+        <!--<Style TargetType="StackPanel">
+            <Setter Property="Background" Value="White"/>
+        </Style>-->
+
         <DataTemplate x:Key="BlackItemHeaderTemplate">
             <Grid>
                 <ContentPresenter>

@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using System.Windows.Input;
 
 namespace FlickrPhoneApp
 {
@@ -15,6 +16,18 @@ namespace FlickrPhoneApp
         public ImagePage()
         {
             InitializeComponent();
+        }
+
+        private void Image_Tap_1(object sender, GestureEventArgs e)
+        {
+            if (PageTitle.Opacity == 1)
+            {
+                TitleStoryboard.Begin();
+            }
+            else
+            {
+                TitleStoryboardReverse.Begin();
+            }
         }
     }
 }
