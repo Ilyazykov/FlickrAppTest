@@ -15,7 +15,7 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     shell:SystemTray.IsVisible="True"
-    d:DataContext="{Binding Main, Source={StaticResource Locator}}">
+    DataContext="{Binding Main, Source={StaticResource Locator}}">
 
     <Grid x:Name="LayoutRoot" Background="Transparent">
         
@@ -30,9 +30,9 @@
             
             <control:PanoramaItem Header="first item">
                 <ListBox
-                Margin="10"
-                
-                ItemsSource="{Binding Photos}">
+                    x:Name="ImageListBoxFirst"
+                    Margin="10"
+                    ItemsSource="{Binding Photos}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid 
@@ -58,7 +58,7 @@
                         <Custom:EventTrigger EventName="SelectionChanged">
                             <GalaSoft_MvvmLight_Command:EventToCommand
                             Command="{Binding DetailsPageCommand, Mode=OneWay}"
-                            CommandParameter="{Binding SelectedItem, ElementName=ImageListBox}" />
+                            CommandParameter="{Binding SelectedItem, ElementName=ImageListBoxFirst}" />
                         </Custom:EventTrigger>
                     </Custom:Interaction.Triggers>
                 </ListBox>
@@ -67,8 +67,9 @@
             
             <control:PanoramaItem Header="second item">
                 <ListBox
-                Margin="10"
-                ItemsSource="{Binding Photos}">
+                    x:Name="ImageListBoxSecond"
+                    Margin="10"
+                    ItemsSource="{Binding Photos}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid 
@@ -94,7 +95,7 @@
                         <Custom:EventTrigger EventName="SelectionChanged">
                             <GalaSoft_MvvmLight_Command:EventToCommand
                             Command="{Binding DetailsPageCommand, Mode=OneWay}"
-                            CommandParameter="{Binding SelectedItem, ElementName=ImageListBox}" />
+                            CommandParameter="{Binding SelectedItem, ElementName=ImageListBoxSecond}" />
                         </Custom:EventTrigger>
                     </Custom:Interaction.Triggers>
                 </ListBox>
@@ -103,8 +104,9 @@
             
             <control:PanoramaItem Header="third item">
                 <ListBox
-                Margin="10"
-                ItemsSource="{Binding Photos}">
+                    x:Name="ImageListBoxThird"
+                    Margin="10"
+                    ItemsSource="{Binding Photos}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid 
@@ -130,7 +132,7 @@
                         <Custom:EventTrigger EventName="SelectionChanged">
                             <GalaSoft_MvvmLight_Command:EventToCommand
                             Command="{Binding DetailsPageCommand, Mode=OneWay}"
-                            CommandParameter="{Binding SelectedItem, ElementName=ImageListBox}" />
+                            CommandParameter="{Binding SelectedItem, ElementName=ImageListBoxThird}" />
                         </Custom:EventTrigger>
                     </Custom:Interaction.Triggers>
                 </ListBox>
